@@ -97,10 +97,11 @@ import PromiseKit
 
     public func completeOAuth(
         withOAuthVerifier oAuthVerifier: String,
+        customParams: [String: String]?,
         onSuccess: @escaping (_ linkedBroker: TradeItLinkedBroker) -> Void,
         onFailure: @escaping (TradeItErrorResult) -> Void
     ) -> Void {
-        self.connector.getOAuthAccessToken(withOAuthVerifier: oAuthVerifier) { tradeItResult in
+        self.connector.getOAuthAccessToken(withOAuthVerifier: oAuthVerifier, customParams: customParams) { tradeItResult in
             switch tradeItResult {
             case let errorResult as TradeItErrorResult:
                 onFailure(errorResult)

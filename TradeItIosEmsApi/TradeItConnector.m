@@ -141,6 +141,7 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
 
 
 - (void)getOAuthAccessTokenWithOAuthVerifier:(NSString *)oAuthVerifier
+                                customParams:(NSDictionary<NSString *, NSString *> *)customParams
                              completionBlock:(void (^)(TradeItResult *))completionBlock {
 
     TradeItOAuthAccessTokenRequest *oAuthAccessTokenRequest
@@ -151,6 +152,22 @@ NSString *USER_DEFAULTS_SUITE = @"TRADEIT";
                                                                                emsAction:@"user/getOAuthAccessToken"
                                                                              environment:self.environment];
 
+    // overwrite request, inserting custom params
+    NSMutableDictionary *requestDict = [[oAuthAccessTokenRequest toDictionary] mutableCopy];
+    for (NSString *customParamKey in customParams.allKeys) {
+        if (requestDict[customParamKey] != nil) {
+            NSLog(@"error:tried to pass custom param for existing param %@", customParamKey);
+        } else {
+            requestDict[customParamKey] = customParams[customParamKey];
+        }
+    }
+    NSError *error;
+    NSData *requestData = [NSJSONSerialization dataWithJSONObject:requestDict
+                                                       options:NSJSONWritingPrettyPrinted                                                         error:&error];
+    if (!error) {
+        request.HTTPBody = requestData;
+    }
+    
     [self sendEMSRequest:request
      withCompletionBlock:^(TradeItResult *tradeItResult, NSMutableString *jsonResponse) {
          if ([tradeItResult.status isEqual:@"SUCCESS"]) {

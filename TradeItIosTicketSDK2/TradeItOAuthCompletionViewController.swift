@@ -38,6 +38,7 @@ class TradeItOAuthCompletionViewController: TradeItViewController {
 
         TradeItSDK.linkedBrokerManager.completeOAuth(
             withOAuthVerifier: oAuthVerifier,
+            customParams: nil,
             onSuccess: { linkedBroker in
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(

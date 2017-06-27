@@ -37,6 +37,7 @@ import UIKit
 
         TradeItSDK.linkedBrokerManager.completeOAuth(
             withOAuthVerifier: self.oAuthCallbackUrlParser.oAuthCallbackUrl.absoluteString, // Y! Finance backend will parse out OAuthVerifier
+            customParams: nil,
             onSuccess: { linkedBroker in
                 self.linkedBroker = linkedBroker
                 linkedBroker.authenticateIfNeeded(

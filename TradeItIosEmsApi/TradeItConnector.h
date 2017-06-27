@@ -139,6 +139,7 @@
                                       completionBlock:(void (^ _Nonnull)(TradeItResult * _Nullable))completionBlock;
 
 - (void)getOAuthAccessTokenWithOAuthVerifier:(NSString * _Nullable)oAuthVerifier
+                                customParams:(NSDictionary<NSString *, NSString *> *)params
                              completionBlock:(void (^ _Nullable)(TradeItResult * _Nullable))completionBlock;
 
 @end
