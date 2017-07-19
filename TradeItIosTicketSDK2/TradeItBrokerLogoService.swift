@@ -27,7 +27,7 @@ class TradeItBrokerLogoService {
 
         imageView.sd_setImage(with: logoUrl)
         imageView.setIndicatorStyle(.gray)
-        imageView.setShowActivityIndicator(true)        imageView.sd_setShowActivityIndicatorView(true)
+        imageView.setShowActivityIndicator(true)
         
         return true
     }
