@@ -5,15 +5,13 @@ enum TradeItBrokerLogoSize: String {
 }
 
 class TradeItBrokerLogoService {
-    static func setLogo(forBroker broker: TradeItBroker, onImageView imageView: UIImageView, withSize size: TradeItBrokerLogoSize) {
-        guard let brokerShortName = broker.brokerShortName else { return }
-
+    static func setLogo(forBroker broker: TradeItBroker, onImageView imageView: UIImageView, withSize size: TradeItBrokerLogoSize) -> Bool {
+        guard let brokerShortName = broker.brokerShortName else { return false}
         if let brokerLogoImage = TradeItSDK.brokerLogoService.getLogo(forBroker: brokerShortName) {
             imageView.image = brokerLogoImage
-        } else if setRemoteLogo(forBroker: broker, onImageView: imageView, withSize: size) {
-            print("TradeIt Logo: Fetching remote logo for \(brokerShortName)")
+            return true
         } else {
-            print("TradeIt ERROR: No broker logo provided for \(brokerShortName)")
+            return setRemoteLogo(forBroker: broker, onImageView: imageView, withSize: size)
         }
     }
 
@@ -22,10 +20,12 @@ class TradeItBrokerLogoService {
             let logoData = logoMetadata.first(where: { $0.name == size.rawValue }),
             let logoUrlString = logoData.url,
             let logoUrl = URL(string: logoUrlString) else {
+                print("TradeIt ERROR: No broker logo provided for \(broker.shortName)")
                 return false
         }
 
-        // diff in this fork, switching to SDWebImage v3.x
+        print("TradeIt Logo: Fetching remote logo for \(broker.shortName)")
+        // Yahoo's diff in this fork is to switch to SDWebImage v3.x
         imageView.sd_setImage(with: logoUrl)
         imageView.setIndicatorStyle(.gray)
         imageView.setShowActivityIndicator(true)
