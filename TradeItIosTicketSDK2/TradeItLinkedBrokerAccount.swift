@@ -32,7 +32,7 @@
         }
     }
 
-    init(linkedBroker: TradeItLinkedBroker,
+    internal init(linkedBroker: TradeItLinkedBroker,
          accountName: String,
          accountNumber: String,
          accountIndex: String,
@@ -55,6 +55,7 @@
         self.positions = positions
         self.orderCapabilities = orderCapabilities
         self._enabled = isEnabled
+        // TODO: These services should be a reference to one held on the parent linkedBroker instead of duplicated for every account...
         self.tradeItBalanceService = TradeItBalanceService(session: linkedBroker.session)
         self.tradeItPositionService = TradeItPositionService(session: linkedBroker.session)
         self.tradeService = TradeItTradeService(session: linkedBroker.session)
@@ -82,7 +83,7 @@
                 self.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default:
-                onFailure(TradeItErrorResult(title: "Failed to retrieve account balances"))
+                onFailure(TradeItErrorResult(title: "Could not retrieve account balances. Please try again."))
             }
         }
     }
@@ -93,27 +94,30 @@
             switch tradeItResult {
             case let positionsResult as TradeItGetPositionsResult:
                 guard let equityPositions = positionsResult.positions as? [TradeItPosition] else {
-                    return onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))
+                    return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
                 }
+
                 let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
                     equityPosition.currencyCode = positionsResult.accountBaseCurrency
                     return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
                 }
 
                 guard let fxPositions = positionsResult.fxPositions as? [TradeItFxPosition] else {
-                    return onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))
+                    return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
                 }
+
                 let portfolioFxPositions = fxPositions.map { fxPosition -> TradeItPortfolioPosition in
                     return TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
                 }
 
                 self.positions = portfolioEquityPositions + portfolioFxPositions
+
                 onSuccess(self.positions)
             case let errorResult as TradeItErrorResult:
                 self.linkedBroker?.error = errorResult
                 onFailure(errorResult)
             default:
-                onFailure(TradeItErrorResult(title: "Failed to retrieve account positions"))
+                onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
             }
         }
     }

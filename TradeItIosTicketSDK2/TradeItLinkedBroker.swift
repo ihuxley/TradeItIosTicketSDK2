@@ -13,7 +13,12 @@ import PromiseKit
             }
 
             self._error = newError
+
             self.isAccountLinkDelayedError = newError?.isAccountLinkDelayedError() ?? false
+            if self.isAccountLinkDelayedError {
+                // We need to cache the isAccountLinkDelayedError property to be able to show the error when we relaunch the app
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
+            }
         }
         get { return self._error }
     }
@@ -78,14 +83,11 @@ import PromiseKit
                     )
                 case let error as TradeItErrorResult:
                     self.error = error
-                    if self.isAccountLinkDelayedError { // We need to cache the isAccountLinkDelayedError property to be able to show the error when we relaunch the app 
-                        TradeItSDK.linkedBrokerCache.cache(linkedBroker: self)
-                    }
                     onFailure(error)
                 default:
                     handler(
                         TradeItErrorResult(
-                            title: "Authentication failed",
+                            title: "Could not authenticate",
                             code: .sessionError
                         )
                     )
@@ -111,7 +113,11 @@ import PromiseKit
         }
 
         if error.requiresAuthentication() {
-            self.authenticate(onSuccess: onSuccess, onSecurityQuestion: onSecurityQuestion, onFailure: onFailure)
+            self.authenticate(
+                onSuccess: onSuccess,
+                onSecurityQuestion: onSecurityQuestion,
+                onFailure: onFailure
+            )
         } else if error.requiresRelink() {
             onFailure(error)
         } else {
@@ -168,7 +174,7 @@ import PromiseKit
     public func setUnauthenticated() {
         self.error = TradeItErrorResult(
             title: "Linked Broker initialized from keychain",
-            message: "This linked broker needs to authenticate.",
+            message: "Linked broker must to be authenticated before using.",
             code: .sessionError
         )
     }
@@ -188,16 +194,25 @@ import PromiseKit
             environment: self.session.connector.environment
         )
 
-        self.session.connector.sendEMSRequest(request, forResultClass: TradeItQuotesResult.self, withCompletionBlock: { result in
-            if let quotesResult = result as? TradeItQuotesResult,
-                let quote = quotesResult.quotes?.first as? TradeItQuote {
-                onSuccess(quote)
-            } else if let errorResult = result as? TradeItErrorResult {
-                onFailure(errorResult)
-            } else {
-                onFailure(TradeItErrorResult(title: "Market Data failed", message: "Fetching the quote failed. Please try again later."))
+        self.session.connector.sendEMSRequest(
+            request,
+            forResultClass: TradeItQuotesResult.self,
+            withCompletionBlock: { result in
+                if let quotesResult = result as? TradeItQuotesResult,
+                    let quote = quotesResult.quotes?.first as? TradeItQuote {
+                    onSuccess(quote)
+                } else if let errorResult = result as? TradeItErrorResult {
+                    onFailure(errorResult)
+                } else {
+                    onFailure(
+                        TradeItErrorResult(
+                            title: "Market data error",
+                            message: "Could not fetch quote. Please try again."
+                        )
+                    )
+                }
             }
-        })
+        )
     }
 
     // MARK: Private
