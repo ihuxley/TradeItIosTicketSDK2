@@ -60,7 +60,6 @@ import UIKit
     public static var isAdServiceEnabled = false
     public static var userCountryCode: String? // CountryCode matching standard: ISO3166 alpha-2. Used for managing broker availability.
     public static var adService: AdService = DefaultAdService()
-    public static var brokerLogoService: BrokerLogoService = DefaultBrokerLogoService()
     public static var welcomeScreenHeadlineText: String = "Link your broker account to enable:"
     public static var featuredBrokerLabelText: String = "SPONSORED BROKER"
 
@@ -89,7 +88,7 @@ import UIKit
     }
 
     public static func set(host: String, forEnvironment env: TradeitEmsEnvironments) {
-        TradeItRequestResultFactory.setHost(host, forEnvironment: env)
+        TradeItRequestFactory.setHost(host, forEnvironment: env)
     }
 
     // MARK: Initializers
@@ -105,8 +104,7 @@ import UIKit
             oAuthCallbackUrl: oAuthCallbackUrl,
             environment: environment,
             marketDataService: nil,
-            requestFactory: nil,
-            brokerLogoService: nil
+            requestFactory: nil
         )
     }
 
@@ -116,8 +114,7 @@ import UIKit
         environment: TradeitEmsEnvironments = TradeItEmsProductionEnv,
         userCountryCode: String? = nil,
         marketDataService: MarketDataService? = nil,
-        requestFactory: RequestFactory? = nil,
-        brokerLogoService: BrokerLogoService? = nil
+        requestFactory: RequestFactory? = nil
     ) {
         guard !self.configured else {
             print("WARNING: TradeItSDK.configure() called multiple times. Ignoring.")
@@ -126,43 +123,17 @@ import UIKit
 
         self.configured = true
 
-        // TODO: TradeItRequestResultFactory.requestFactory should never be nil. Set the default in TradeItRequestResultFactory
-        TradeItRequestResultFactory.requestFactory = requestFactory ?? DefaultRequestFactory()
-
-        self.brokerLogoService = brokerLogoService ?? DefaultBrokerLogoService()
+        TradeItRequestFactory.setRequestFactory(requestFactory: requestFactory ?? DefaultRequestFactory())
 
         self._apiKey = apiKey
         self._environment = environment
         self._oAuthCallbackUrl = oAuthCallbackUrl
         self.userCountryCode = userCountryCode
-        self._linkedBrokerManager = TradeItLinkedBrokerManager(apiKey: apiKey, environment: environment)
-        self._marketDataService = marketDataService ?? TradeItMarketService(apiKey: apiKey, environment: environment)
-        self._symbolService = TradeItSymbolService(apiKey: apiKey, environment: environment)
+
+        let connector = TradeItConnector(apiKey: apiKey, environment: environment, version: TradeItEmsApiVersion_2)
+        self._linkedBrokerManager = TradeItLinkedBrokerManager(connector: connector)
+        self._marketDataService = marketDataService ?? TradeItMarketService(connector: connector)
+        self._symbolService = TradeItSymbolService(connector: connector)
         self._brokerCenterService = TradeItBrokerCenterService(apiKey: apiKey, environment: environment)
-    }
-}
-
-@objc public protocol BrokerLogoService {
-    func getLogo(forBroker broker: String) -> UIImage?
-}
-
-@objc public class DefaultBrokerLogoService: NSObject, BrokerLogoService {
-    public func getLogo(forBroker broker: String) -> UIImage? {
-        return broker.lowercased() == "dummy" ? UIImage(named: "tradeit_logo.png") : nil
-    }
-}
-
-@objc public class DefaultRequestFactory: NSObject, RequestFactory {
-    public func buildPostRequest(
-        for url: URL,
-        jsonPostBody: String,
-        headers: [String : String]
-    ) -> URLRequest? {
-        var request = URLRequest(url: url)
-        request.httpBody = jsonPostBody.data(using: .utf8)
-        request.httpMethod = "POST"
-        request.allHTTPHeaderFields = headers // TODO: Add Dictionary extension for merging dictionaries
-
-        return request;
     }
 }

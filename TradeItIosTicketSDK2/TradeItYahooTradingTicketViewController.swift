@@ -1,7 +1,7 @@
 import UIKit
 import MBProgressHUD
 
-class TradeItYahooTradingTicketViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
+class TradeItYahooTradingTicketViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, TradeItYahooAccountSelectionViewControllerDelegate {
     @IBOutlet weak var tableView: TradeItDismissableKeyboardTableView!
     @IBOutlet weak var reviewOrderButton: UIButton!
     @IBOutlet weak var tableViewBottomConstraint: NSLayoutConstraint!
@@ -66,6 +66,7 @@ class TradeItYahooTradingTicketViewController: CloseableViewController, UITableV
 
         switch ticketRow {
         case .account:
+            self.accountSelectionViewController.selectedLinkedBrokerAccount = self.order.linkedBrokerAccount
             self.navigationController?.pushViewController(self.accountSelectionViewController, animated: true)
         case .orderType:
             self.selectionViewController.initialSelection = TradeItOrderPriceTypePresenter.labelFor(self.order.type)

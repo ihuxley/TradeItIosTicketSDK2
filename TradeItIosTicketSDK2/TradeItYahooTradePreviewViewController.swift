@@ -2,7 +2,7 @@ import UIKit
 import MBProgressHUD
 import BEMCheckBox
 
-class TradeItYahooTradePreviewViewController: CloseableViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
+class TradeItYahooTradePreviewViewController: TradeItYahooViewController, UITableViewDelegate, UITableViewDataSource, AcknowledgementDelegate {
     @IBOutlet weak var orderDetailsTable: UITableView!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var statusLabel: UILabel!
@@ -64,8 +64,15 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
                     { placeOrderResult in
                         //Remove the editOrderButton and expand the action button
                         self.editOrderButton.removeFromSuperview()
-                        self.actionButtonWidthConstraint.isActive = false
-                        self.actionButtonWidthConstraint = NSLayoutConstraint(item: self.actionButton, attribute: .width, relatedBy: .equal, toItem: self.actionButton.superview, attribute: .width, multiplier: 0.9, constant: 0)
+                        self.actionButtonWidthConstraint = NSLayoutConstraint(
+                            item: self.actionButton,
+                            attribute: .trailing,
+                            relatedBy: .equal,
+                            toItem: self.actionButton.superview,
+                            attribute: .trailingMargin,
+                            multiplier: 1.0,
+                            constant: 0
+                        )
                         NSLayoutConstraint.activate([self.actionButtonWidthConstraint])
                         
                         self.placeOrderResult = placeOrderResult
@@ -114,14 +121,14 @@ class TradeItYahooTradePreviewViewController: CloseableViewController, UITableVi
             onFailure: { errorResult in
                 activityView.hide(animated: true)
                 self.actionButton.enable()
-
+                
                 guard let linkedBroker = self.linkedBrokerAccount.linkedBroker else {
                     return self.alertManager.showError(
                         errorResult,
                         onViewController: self
                     )
                 }
-
+                
                 self.alertManager.showAlertWithAction(
                     error: errorResult,
                     withLinkedBroker: linkedBroker,

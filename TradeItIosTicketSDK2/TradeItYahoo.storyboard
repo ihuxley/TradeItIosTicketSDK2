@@ -6,7 +6,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -412,7 +411,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WmD-Ux-mLR">
-                                <rect key="frame" x="16" y="602" width="150" height="50"/>
+                                <rect key="frame" x="16" y="602" width="166.5" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="BlA-Bz-8hx"/>
@@ -431,7 +430,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HKj-um-Xr9">
-                                <rect key="frame" x="209" y="602" width="150" height="50"/>
+                                <rect key="frame" x="192.5" y="602" width="166.5" height="50"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.94999999999999996" height="1"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                 <state key="normal" title="Edit Order"/>
@@ -615,10 +614,10 @@
                             <constraint firstAttribute="trailing" secondItem="73G-qD-TFr" secondAttribute="trailing" id="IPs-sI-ihZ"/>
                             <constraint firstItem="Zob-SG-YmF" firstAttribute="top" secondItem="HKj-um-Xr9" secondAttribute="bottom" constant="15" id="IhY-AA-Tra"/>
                             <constraint firstAttribute="trailingMargin" secondItem="HKj-um-Xr9" secondAttribute="trailing" id="JOz-gr-x6f"/>
+                            <constraint firstItem="HKj-um-Xr9" firstAttribute="leading" secondItem="WmD-Ux-mLR" secondAttribute="trailing" constant="10" id="KX6-6f-aRr"/>
                             <constraint firstItem="73G-qD-TFr" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leading" id="TKy-wa-vrS"/>
                             <constraint firstItem="Zob-SG-YmF" firstAttribute="top" secondItem="WmD-Ux-mLR" secondAttribute="bottom" constant="15" id="TWd-Fc-0ly"/>
                             <constraint firstItem="HKj-um-Xr9" firstAttribute="height" secondItem="WmD-Ux-mLR" secondAttribute="height" id="Vfh-ge-JA8"/>
-                            <constraint firstItem="WmD-Ux-mLR" firstAttribute="width" secondItem="Z9C-Gg-aUS" secondAttribute="width" multiplier="0.4" id="ZfI-en-FT9"/>
                             <constraint firstItem="PeI-Kt-6k1" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="a2s-cQ-A6E"/>
                             <constraint firstItem="PeI-Kt-6k1" firstAttribute="top" secondItem="vlR-AU-ay5" secondAttribute="bottom" constant="15" id="fbh-Dh-ILR"/>
                             <constraint firstItem="WmD-Ux-mLR" firstAttribute="leading" secondItem="Z9C-Gg-aUS" secondAttribute="leadingMargin" id="lqB-QB-QHN"/>
@@ -627,7 +626,7 @@
                     </view>
                     <connections>
                         <outlet property="actionButton" destination="WmD-Ux-mLR" id="fVk-rk-im7"/>
-                        <outlet property="actionButtonWidthConstraint" destination="ZfI-en-FT9" id="ZX7-X7-jZ0"/>
+                        <outlet property="actionButtonWidthConstraint" destination="KX6-6f-aRr" id="BN3-wR-ZVH"/>
                         <outlet property="editOrderButton" destination="HKj-um-Xr9" id="TQ2-YH-naf"/>
                         <outlet property="orderDetailsTable" destination="73G-qD-TFr" id="cV8-bQ-8nV"/>
                         <outlet property="statusLabel" destination="PeI-Kt-6k1" id="mxl-0Y-XTI"/>
@@ -683,7 +682,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID" rowHeight="98" id="NWs-ow-Xu5" customClass="TradeItYahooFeaturedBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_YAHOO_FEATURED_BROKER_CELL_ID" rowHeight="98" id="NWs-ow-Xu5" customClass="TradeItFeaturedBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="99.5" width="375" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NWs-ow-Xu5" id="aHL-60-UQe">

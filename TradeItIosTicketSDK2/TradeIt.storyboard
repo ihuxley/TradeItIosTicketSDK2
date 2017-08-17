@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="15G1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -867,7 +867,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="$113,532.12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1O-yZ-SwH">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="$113,532.12" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="j1O-yZ-SwH">
                                                     <rect key="frame" x="144" y="11" width="190" height="26"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="21"/>
                                                     <nil key="textColor"/>
@@ -1515,10 +1515,10 @@
             </objects>
             <point key="canvasLocation" x="4028" y="-520"/>
         </scene>
-        <!--Accounts-->
+        <!--Brokers List-->
         <scene sceneID="huh-Y5-9RO">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_BROKER_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="3LS-g1-9qu" customClass="TradeItBrokerManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_BROKER_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="3LS-g1-9qu" userLabel="Brokers List" customClass="TradeItBrokerManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="VIS-qd-YyE"/>
                         <viewControllerLayoutGuide type="bottom" id="2NZ-W2-FLd"/>
@@ -1617,7 +1617,7 @@
                             <constraint firstItem="IFA-fG-dFP" firstAttribute="top" secondItem="Ntd-kO-gOZ" secondAttribute="bottom" id="hCy-rF-ULH"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Accounts" id="gxw-sG-v0u">
+                    <navigationItem key="navigationItem" title="Linked Brokers" id="gxw-sG-v0u" userLabel="Linked Brokers">
                         <barButtonItem key="backBarButtonItem" title="Back" id="aEE-pa-epW"/>
                     </navigationItem>
                     <connections>
@@ -1630,10 +1630,10 @@
             </objects>
             <point key="canvasLocation" x="1784.8" y="-1193.2533733133434"/>
         </scene>
-        <!--Accounts Management-->
+        <!--Broker Management-->
         <scene sceneID="CTf-ld-7e6">
             <objects>
-                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="SR2-KL-ApC" customClass="TradeItAccountManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TRADE_IT_ACCOUNT_MANAGEMENT_VIEW" automaticallyAdjustsScrollViewInsets="NO" id="SR2-KL-ApC" userLabel="Broker Management" customClass="TradeItAccountManagementViewController" customModule="TradeItIosTicketSDK2" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aVW-c4-HBo"/>
                         <viewControllerLayoutGuide type="bottom" id="sFl-4B-XPW"/>
@@ -1707,7 +1707,7 @@
                             <constraint firstItem="pIx-2Y-F4H" firstAttribute="leading" secondItem="5vH-AP-eHv" secondAttribute="leading" id="rr1-w8-pSU"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Accounts Management" id="oXs-vk-dSI" userLabel="BrokerName">
+                    <navigationItem key="navigationItem" title="Broker Management" id="oXs-vk-dSI" userLabel="BrokerName">
                         <barButtonItem key="backBarButtonItem" title="Back" id="i5t-Bm-mDT"/>
                     </navigationItem>
                     <connections>
@@ -1758,7 +1758,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="You can now trade from that account or view your portfolio to see performance, news, and edit settings." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVk-PB-m4r" userLabel="Details Label">
-                                <rect key="frame" x="71" y="131" width="233" height="67"/>
+                                <rect key="frame" x="36" y="131" width="303" height="67"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -1777,7 +1777,7 @@
                             </view>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="QVk-PB-m4r" secondAttribute="trailing" constant="55" id="Dcw-Tn-02f"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="QVk-PB-m4r" secondAttribute="trailing" constant="20" id="Dcw-Tn-02f"/>
                             <constraint firstItem="QVk-PB-m4r" firstAttribute="top" secondItem="Hs3-Aa-Icl" secondAttribute="bottom" constant="22" id="P9x-KF-9Fd"/>
                             <constraint firstItem="GBn-WM-6Tc" firstAttribute="top" secondItem="QVk-PB-m4r" secondAttribute="bottom" constant="30" id="QmZ-cw-bbL"/>
                             <constraint firstItem="lwx-MP-KaO" firstAttribute="centerX" secondItem="Wv3-Hn-ZEF" secondAttribute="centerX" id="U29-yg-7d8"/>
@@ -1785,7 +1785,7 @@
                             <constraint firstItem="Hs3-Aa-Icl" firstAttribute="top" secondItem="5Ij-CX-sLM" secondAttribute="bottom" constant="60" id="XCq-kO-dl2"/>
                             <constraint firstItem="lwx-MP-KaO" firstAttribute="centerY" secondItem="QVk-PB-m4r" secondAttribute="centerY" id="l6I-xw-TD9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Hs3-Aa-Icl" secondAttribute="trailing" id="m2m-d7-ayj"/>
-                            <constraint firstItem="QVk-PB-m4r" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" constant="55" id="nMh-ed-Tzz"/>
+                            <constraint firstItem="QVk-PB-m4r" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" constant="20" id="nMh-ed-Tzz"/>
                             <constraint firstItem="GBn-WM-6Tc" firstAttribute="top" secondItem="lwx-MP-KaO" secondAttribute="bottom" constant="45" id="qeR-FQ-YKU"/>
                             <constraint firstItem="Hs3-Aa-Icl" firstAttribute="leading" secondItem="Wv3-Hn-ZEF" secondAttribute="leadingMargin" id="veh-Hi-Sie"/>
                             <constraint firstItem="cdg-3S-hJI" firstAttribute="top" secondItem="NYB-Go-5fg" secondAttribute="bottom" id="y3D-l4-yNI"/>
@@ -2215,7 +2215,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_SELECTION_CELL_ID" id="SER-91-uYb">
-                                        <rect key="frame" x="0.0" y="56" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="SER-91-uYb" id="BsG-9l-ZIZ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -2236,8 +2236,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_FEATURED_BROKER_CELL_ID" rowHeight="98" id="jfU-1c-BCs" customClass="TradeItYahooFeaturedBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="100" width="375" height="98"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleAspectFit" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_FEATURED_BROKER_CELL_ID" rowHeight="98" id="jfU-1c-BCs" customClass="TradeItFeaturedBrokerTableViewCell" customModule="TradeItIosTicketSDK2" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="99.5" width="375" height="98"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jfU-1c-BCs" id="fQs-DD-ayY">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="98"/>
@@ -2272,7 +2272,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TRADE_IT_BROKER_SELECTION_HEADER_CELL_ID" textLabel="9qM-5k-X4w" style="IBUITableViewCellStyleDefault" id="KOj-fH-n98">
-                                        <rect key="frame" x="0.0" y="198" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="197.5" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KOj-fH-n98" id="Siy-9x-gJJ">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>

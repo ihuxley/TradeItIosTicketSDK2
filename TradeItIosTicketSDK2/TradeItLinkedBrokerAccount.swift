@@ -62,64 +62,65 @@
         self.fxTradeService = TradeItFxTradeService(session: linkedBroker.session)
     }
 
+    internal convenience init(linkedBroker: TradeItLinkedBroker, accountData: LinkedBrokerAccountData) {
+        self.init(
+            linkedBroker: linkedBroker,
+            accountName: accountData.name,
+            accountNumber: accountData.number,
+            accountIndex: "",
+            accountBaseCurrency: accountData.baseCurrency,
+            balance: nil,
+            fxBalance: nil,
+            positions: []
+        )
+    }
+
     public func getAccountOverview(cacheResult: Bool = true,
                                    onSuccess: @escaping (TradeItAccountOverview?) -> Void,
                                    onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItAccountOverviewRequest(accountNumber: self.accountNumber)
-        self.tradeItBalanceService.getAccountOverview(request) { tradeItResult in
-            switch tradeItResult {
-            case let accountOverviewResult as TradeItAccountOverviewResult:
-                self.balanceLastUpdated = Date()
-                self.balance = accountOverviewResult.accountOverview
-                self.fxBalance = accountOverviewResult.fxAccountOverview
-                self.linkedBroker?.clearError()
+        self.tradeItBalanceService.getAccountOverview(request, onSuccess: { result in
+            self.balanceLastUpdated = Date()
+            self.balance = result.accountOverview
+            self.fxBalance = result.fxAccountOverview
+            self.linkedBroker?.clearError()
 
-                if cacheResult {
-                    TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
-                }
-
-                onSuccess(accountOverviewResult.accountOverview)
-            case let errorResult as TradeItErrorResult:
-                self.linkedBroker?.error = errorResult
-                onFailure(errorResult)
-            default:
-                onFailure(TradeItErrorResult(title: "Could not retrieve account balances. Please try again."))
+            if cacheResult {
+                TradeItSDK.linkedBrokerCache.cache(linkedBroker: self.linkedBroker)
             }
-        }
+
+            onSuccess(result.accountOverview)
+        }, onFailure: { error in
+            self.linkedBroker?.error = error
+            onFailure(error)
+        })
     }
 
     public func getPositions(onSuccess: @escaping ([TradeItPortfolioPosition]) -> Void, onFailure: @escaping (TradeItErrorResult) -> Void) {
         let request = TradeItGetPositionsRequest(accountNumber: self.accountNumber)
-        self.tradeItPositionService.getAccountPositions(request) { tradeItResult in
-            switch tradeItResult {
-            case let positionsResult as TradeItGetPositionsResult:
-                guard let equityPositions = positionsResult.positions as? [TradeItPosition] else {
-                    return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
-                }
 
-                let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
-                    equityPosition.currencyCode = positionsResult.accountBaseCurrency
-                    return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
-                }
-
-                guard let fxPositions = positionsResult.fxPositions as? [TradeItFxPosition] else {
-                    return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
-                }
-
-                let portfolioFxPositions = fxPositions.map { fxPosition -> TradeItPortfolioPosition in
-                    return TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
-                }
-
-                self.positions = portfolioEquityPositions + portfolioFxPositions
-
-                onSuccess(self.positions)
-            case let errorResult as TradeItErrorResult:
-                self.linkedBroker?.error = errorResult
-                onFailure(errorResult)
-            default:
-                onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
+        self.tradeItPositionService.getPositions(request, onSuccess: { result in
+            guard let equityPositions = result.positions as? [TradeItPosition] else {
+                return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
             }
-        }
+            let portfolioEquityPositions = equityPositions.map { equityPosition -> TradeItPortfolioPosition in
+                equityPosition.currencyCode = result.accountBaseCurrency
+                return TradeItPortfolioPosition(linkedBrokerAccount: self, position: equityPosition)
+            }
+
+            guard let fxPositions = result.fxPositions as? [TradeItFxPosition] else {
+                return onFailure(TradeItErrorResult(title: "Could not retrieve account positions. Please try again."))
+            }
+            let portfolioFxPositions = fxPositions.map { fxPosition -> TradeItPortfolioPosition in
+                return TradeItPortfolioPosition(linkedBrokerAccount: self, fxPosition: fxPosition)
+            }
+
+            self.positions = portfolioEquityPositions + portfolioFxPositions
+            onSuccess(self.positions)
+        }, onFailure: { error in
+            self.linkedBroker?.error = error
+            onFailure(error)
+        })
     }
 
     public func getFormattedAccountName() -> String {
